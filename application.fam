@@ -1,0 +1,12 @@
+App(
+    appid="bc_pwm_demo",
+    name="Bluechip PWM Demo",
+    apptype=FlipperAppType.PLUGIN,
+    entry_point="bc_pwm_demo",
+    cdefines=["APP_BC_PWM"],
+    requires=[
+        "gui",
+    ],
+    stack_size=2 * 1024,
+    order=20,
+)
