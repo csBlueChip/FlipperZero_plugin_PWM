@@ -298,8 +298,8 @@ bool  stateInit (state_t* const state,  const Gui* gui)
 
 	state->fHz      = 1000;
 	state->duty     = 0.5;
-	state->mode     = PWM_MODE_VOLUME;
-	state->hwId     = PWM_ID_SPEAKER;
+	state->mode     = PWM_MODE_DUTY;
+	state->hwId     = PWM_ID_IR;
 	state->prescale = 500;  //! Where does 500 come from? [other than "the speaker demo code"]
 
 	LEAVE;
