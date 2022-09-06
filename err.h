@@ -56,10 +56,10 @@ err_t ;
 // You need to '#define ERR_C_' in precisely ONE source file
 #ifdef ERR_C_
 	// Build the string list
-	const char* const  errs[] = { FOREACH_ES(ES_STRING) };
+	const char* const  pwm_errs[] = { FOREACH_ES(ES_STRING) };
 #else
 	// Give access to string list
-	extern  const char* const  errs[];
+	extern  const char* const  pwm_errs[];
 #endif
 
 // This is a header file, clean up

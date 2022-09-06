@@ -16,6 +16,10 @@
 //#include <stm32wbxx_ll_tim.h>
 //#include <stm32wbxx_ll_comp.h>
 
+// Error Messages
+#define ERR_C_
+#include "err.h"
+
 // The FlipperZero Settings->System menu allows you to set the logging level at RUN-time
 // LOG_LEVEL lets you limit it at COMPILE-time
 //    1.  None
@@ -31,10 +35,6 @@
 // Local headers
 #include  "bc_pwmDemo.h"  // Various enums and struct declarations
 //#include  "err.h"         // Error numbers & messages
-
-// Error Messages
-#define ERR_C_
-#include "err.h"
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //   OOOOO    // SSSSS       CCCCC  AAA  L     L     BBBB   AAA   CCCC K   K  SSSSS
@@ -341,21 +341,21 @@ int32_t  bc_pwm_demo (void)
 	// ===== Message queue =====
 	// 1. Create a message queue (for up to 8 (keyboard) event messages)
 	if ( !(queue = furi_message_queue_alloc(queueSz, sizeof(msg))) ) {
-		ERROR(errs[(error = ERR_MALLOC_QUEUE)]);
+		ERROR(pwm_errs[(error = ERR_MALLOC_QUEUE)]);
 		goto bail;
 	}
 
 	// ===== Create GUI Interface =====
 	// 2. Create a GUI interface
 	if ( !(gui = furi_record_open("gui")) ) {
-		ERROR(errs[(error = ERR_NO_GUI)]);
+		ERROR(pwm_errs[(error = ERR_NO_GUI)]);
 		goto bail;
 	}
 
 	// ===== Plugin state variables =====
 	// 3. Allocate space on the heap for the plugin state variables
 	if ( !(state = malloc(sizeof(*state))) ) {
-		ERROR(errs[(error = ERR_MALLOC_STATE)]);
+		ERROR(pwm_errs[(error = ERR_MALLOC_STATE)]);
 		goto bail;
 	}
 	// 4. Initialise the plugin state variables
@@ -366,14 +366,14 @@ int32_t  bc_pwm_demo (void)
 	}
 	// 5. Create a mutex for (reading/writing) the plugin state variables
 	if (!init_mutex(&mutex, state, sizeof(state))) {
-		ERROR(errs[(error = ERR_NO_MUTEX)]);
+		ERROR(pwm_errs[(error = ERR_NO_MUTEX)]);
 		goto bail;
 	}
 
 	// ===== Viewport =====
 	// 6. Allocate space on the heap for the viewport
 	if ( !(vpp = view_port_alloc()) ) {
-		ERROR(errs[(error = ERR_MALLOC_VIEW)]);
+		ERROR(pwm_errs[(error = ERR_MALLOC_VIEW)]);
 		goto bail;
 	}
 	// 7a. Register a callback for input events
@@ -388,14 +388,14 @@ int32_t  bc_pwm_demo (void)
 	// ===== Timer =====
 	// 9. Allocate a timer
 	if ( !(state->timer = furi_timer_alloc(cbTimer, FuriTimerTypePeriodic, queue)) ) {
-		ERROR(errs[(error = ERR_NO_TIMER)]);
+		ERROR(pwm_errs[(error = ERR_NO_TIMER)]);
 		goto bail;
 	}
 
 	// ===== PWM =====
 	// 10. Allocate a PWM actor called (uninspiringly) "pwm" ("Mr PWM" to you)
 	if ( !(state->pwm = calloc(1, sizeof(*(state->pwm)))) ) {
-		ERROR(errs[(error = ERR_NO_PWM)]);
+		ERROR(pwm_errs[(error = ERR_NO_PWM)]);
 		goto bail;
 	}
 
@@ -415,20 +415,20 @@ int32_t  bc_pwm_demo (void)
 		// Read failed
 		if (status != FuriStatusOk) {
 			switch (status) {
-				case FuriStatusErrorTimeout:    DEBUG(errs[       DEBUG_QUEUE_TIMEOUT]);    break ;
-				case FuriStatusError:           ERROR(errs[(error = ERR_QUEUE_RTOS)]);      goto bail ;
-				case FuriStatusErrorResource:   ERROR(errs[(error = ERR_QUEUE_RESOURCE)]);  goto bail ;
-				case FuriStatusErrorParameter:  ERROR(errs[(error = ERR_QUEUE_BADPRM)]);    goto bail ;
-				case FuriStatusErrorNoMemory:   ERROR(errs[(error = ERR_QUEUE_NOMEM)]);     goto bail ;
-				case FuriStatusErrorISR:        ERROR(errs[(error = ERR_QUEUE_ISR)]);       goto bail ;
-				default:                        ERROR(errs[(error = ERR_QUEUE_UNK)]);       goto bail ;
+				case FuriStatusErrorTimeout:    DEBUG(pwm_errs[       DEBUG_QUEUE_TIMEOUT]);    break ;
+				case FuriStatusError:           ERROR(pwm_errs[(error = ERR_QUEUE_RTOS)]);      goto bail ;
+				case FuriStatusErrorResource:   ERROR(pwm_errs[(error = ERR_QUEUE_RESOURCE)]);  goto bail ;
+				case FuriStatusErrorParameter:  ERROR(pwm_errs[(error = ERR_QUEUE_BADPRM)]);    goto bail ;
+				case FuriStatusErrorNoMemory:   ERROR(pwm_errs[(error = ERR_QUEUE_NOMEM)]);     goto bail ;
+				case FuriStatusErrorISR:        ERROR(pwm_errs[(error = ERR_QUEUE_ISR)]);       goto bail ;
+				default:                        ERROR(pwm_errs[(error = ERR_QUEUE_UNK)]);       goto bail ;
 			}
 
 		// Read successful
 		} else {
 			// *** Try to lock the plugin state variables ***
 			if ( !(state = (state_t*)acquire_mutex_block(&mutex)) ) {
-				ERROR(errs[(error = ERR_MUTEX_BLOCK)]);
+				ERROR(pwm_errs[(error = ERR_MUTEX_BLOCK)]);
 				goto bail;
 			}
 
@@ -450,7 +450,7 @@ int32_t  bc_pwm_demo (void)
 
 			// *** Try to release the plugin state variables ***
 			if ( !release_mutex(&mutex, state) ) {
-				ERROR(errs[(error = ERR_MUTEX_RELEASE)]);
+				ERROR(pwm_errs[(error = ERR_MUTEX_RELEASE)]);
 				goto bail;
 			}
 		} // if (ok)
