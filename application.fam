@@ -1,7 +1,7 @@
 App(
     appid="bc_pwm_demo",
     name="Bluechip PWM Demo",
-    apptype=FlipperAppType.PLUGIN,
+    apptype=FlipperAppType.EXTERNAL,
     entry_point="bc_pwm_demo",
     cdefines=["APP_BC_PWM"],
     requires=[
@@ -9,4 +9,6 @@ App(
     ],
     stack_size=2 * 1024,
     order=20,
+    fap_icon="PWM.png",
+    fap_category="Cyborg Systems",
 )

@@ -394,10 +394,11 @@ int32_t  bc_pwm_demo (void)
 
 	// ===== PWM =====
 	// 10. Allocate a PWM actor called (uninspiringly) "pwm" ("Mr PWM" to you)
-	if ( !(state->pwm = calloc(1, sizeof(*(state->pwm)))) ) {
+	if ( !(state->pwm = malloc(sizeof(*(state->pwm)))) ) {
 		ERROR(pwm_errs[(error = ERR_NO_PWM)]);
 		goto bail;
 	}
+	memset(state->pwm, 0, sizeof(*(state->pwm)));  // calloc() is not exported!
 
 	INFO("INITIALISED");
 
