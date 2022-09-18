@@ -36,12 +36,12 @@ bool  pwmInit (pwmActor_t* pwm,  pwmId_t id,  uint16_t prescale,  pwmMode_t mode
 		INFO("%s : %s", __func__, pwm->hw->name);
 
 		// Initialise the Timer (I think)
-	    FURI_CRITICAL_ENTER();
-	    LL_TIM_DeInit(pwm->hw->timer);
-	    FURI_CRITICAL_EXIT();
+		FURI_CRITICAL_ENTER();
+		LL_TIM_DeInit(pwm->hw->timer);
+		FURI_CRITICAL_EXIT();
 
 		// Initialise the GPIO pin
-	    furi_hal_gpio_init_ex(pwm->hw->pin, GpioModeAltFunctionPushPull, GpioPullNo, GpioSpeedLow, pwm->hw->altFn);
+		furi_hal_gpio_init_ex(pwm->hw->pin, GpioModeAltFunctionPushPull, GpioPullNo, GpioSpeedLow, pwm->hw->altFn);
 	}
 
 	LEAVE;
