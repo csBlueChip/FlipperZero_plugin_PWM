@@ -18,7 +18,10 @@ You can currently select from:
 Internal LED, and Brightness scaling are currently not written.
 
 ```
-mkdir -p applications/bc_pwm_demo
-cd applications/bc_pwm_demo
+cd ~/path/to/flipperDevKit/
+mkdir -p applications_user/bc_pwm_demo
+pushd applications_user/bc_pwm_demo
 git clone https://github.com/csBlueChip/FlipperZero_plugin_PWM.git ./
+popd
+./fbt launch_app APPSRC=applications/bc_pwm_demo
 ```
