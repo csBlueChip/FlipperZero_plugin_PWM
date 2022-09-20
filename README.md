@@ -1,20 +1,19 @@
 # WARNING
 
-This application is *__currently__* NOT working as a FAP, because the FZ kernel fails to export functions which
-* were available to plugins
-* are required to configure PWM
-
-An issue has been raised: https://github.com/flipperdevices/flipperzero-firmware/issues/1747 ...It has been acknowledged on Discord, and expected to be resolved before FAP v1.0 is officially released.
+This application *__currently__* requires a patch to the Flipper exports to make it work as a FAP ...An issue has been raised: https://github.com/flipperdevices/flipperzero-firmware/issues/1747 ...It has been acknowledged on Discord, and expected to be resolved before FAP v1.0 is officially released.
 
 WORKAROUND:
-* edit `firmware/targets/f7/api_symbols.csv` and change:
-  * for `calloc`
+* EITHER: edit `firmware/targets/f7/api_symbols.csv` and:
+  * for `calloc` change:
     * `Function,-,calloc,void*,"size_t, size_t"` to 
     * `Function,+,calloc,void*,"size_t, size_t"`
-  * for `LL_TIM_DeInit`
+  * for `LL_TIM_DeInit` change:
     * `Function,-,LL_TIM_DeInit,ErrorStatus,TIM_TypeDef*` to 
     * `Function,+,LL_TIM_DeInit,ErrorStatus,TIM_TypeDef*`
-* Update the firmware on the Flipper
+* OR: paste these commands to edit the file inline    
+  * `sed -i 's/\(Function,\)-\(,calloc,.*\)/\1+\2/' firmware/targets/f7/api_symbols.csv`
+  * `sed -i 's/\(Function,\)-\(,LL_TIM_DeInit,.*\)/\1+\2/' firmware/targets/f7/api_symbols.csv`
+* THEN: Update the firmware on the Flipper
   * `cd /path/to/flipper/` 
   * `./fbt flash_usb`
   
@@ -39,3 +38,4 @@ git clone https://github.com/csBlueChip/FlipperZero_plugin_PWM.git ./
 popd
 ./fbt launch_app APPSRC=applications/bc_pwm_demo
 ```
+More details [here](https://github.com/csBlueChip/FlipperZero_plugin_howto)
