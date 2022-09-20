@@ -1,6 +1,6 @@
 # WARNING
 
-This application is currently NOT working as a FAP, because the FZ kernel fails to expose functions which
+This application is *__currently__* NOT working as a FAP, because the FZ kernel fails to expose functions which
 * were available to plugins
 * are required to configure PWM
 
