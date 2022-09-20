@@ -38,4 +38,4 @@ git clone https://github.com/csBlueChip/FlipperZero_plugin_PWM.git ./
 popd
 ./fbt launch_app APPSRC=applications/bc_pwm_demo
 ```
-More details [here](https://github.com/csBlueChip/FlipperZero_plugin_howto)
+More details here: https://github.com/csBlueChip/FlipperZero_plugin_howto
