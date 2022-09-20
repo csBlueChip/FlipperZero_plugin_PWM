@@ -4,6 +4,8 @@ This application is *__currently__* NOT working as a FAP, because the FZ kernel 
 * were available to plugins
 * are required to configure PWM
 
+An issue has been raised: https://github.com/flipperdevices/flipperzero-firmware/issues/1747
+
 To review the code as a PLUGIN, please see this checkin: https://github.com/csBlueChip/FlipperZero_plugin_PWM/tree/16ab64c8c9a840813aadf60583acc595b79793fb
 
 # FlipperZero PWM Demo (FAP)
