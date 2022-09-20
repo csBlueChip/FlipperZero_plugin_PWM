@@ -1,4 +1,12 @@
-# FlipperZero PWM Demo (Plugin)
+# WARNING
+
+This application is currently NOT working as a FAP, because the FZ kernel fails to expose functions which
+* were available to plugins
+* are required to configure PWM
+
+To review the code as a PLUGIN, please see this checkin: https://github.com/csBlueChip/FlipperZero_plugin_PWM/tree/16ab64c8c9a840813aadf60583acc595b79793fb
+
+# FlipperZero PWM Demo (FAP)
 
 This will allow you to configure a PWM timer {Frequency, Duty Cycle, Duty Scaling Curve} and attach it to a GPIO Pin.
 
@@ -14,5 +22,3 @@ mkdir -p applications/bc_pwm_demo
 cd applications/bc_pwm_demo
 git clone https://github.com/csBlueChip/FlipperZero_plugin_PWM.git ./
 ```
-
-You will also need to edit `applications/meta/application.fam` and add `bc_pwm_demo` to the Plugins Menu
